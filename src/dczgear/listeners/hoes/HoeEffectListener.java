@@ -28,7 +28,7 @@ public class HoeEffectListener implements Listener {
     private static Plugin plugin;
 
     public HoeEffectListener(Plugin plugin) {
-        this.plugin = plugin;
+        HoeEffectListener.plugin = plugin;
     }
 
     private static final Set<Material> crops = Set.of(
@@ -213,12 +213,12 @@ public class HoeEffectListener implements Listener {
                     int roll = rng.nextInt(100);
 
                     if (roll < toolXPEffect) {
-                        level = LevelParser.addXPIfEligible(ply, item, 4);
-                    } else {
                         level = LevelParser.addXPIfEligible(ply, item, 2);
+                    } else {
+                        level = LevelParser.addXPIfEligible(ply, item, 1);
                     }
                 } else {
-                    level = LevelParser.addXPIfEligible(ply, item, 2);
+                    level = LevelParser.addXPIfEligible(ply, item, 1);
                 }
 
                 if (level != -1) {

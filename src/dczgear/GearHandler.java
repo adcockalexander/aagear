@@ -1,12 +1,14 @@
 package dczgear;
 
 import dczgear.items.GearItem;
+import dczgear.items.axes.fivestars.*;
+import dczgear.items.axes.fourstars.*;
 import dczgear.items.pickaxes.fivestars.*;
 import dczgear.items.pickaxes.fourstars.*;
 import dczgear.items.hoes.fivestars.*;
 import dczgear.items.hoes.fourstars.*;
-import dczgear.listeners.hoes.HoeCraftListener;
-import dczgear.listeners.hoes.HoeEffectListener;
+import dczgear.listeners.axes.*;
+import dczgear.listeners.hoes.*;
 import dczgear.listeners.pickaxes.*;
 import dczgear.utility.ItemCreator;
 
@@ -34,7 +36,12 @@ public class GearHandler extends JavaPlugin {
             Map.entry("DragonTooth", new DragonTooth()),
             Map.entry("FarmerTrick", new FarmerTrick()),
             Map.entry("RootTrimmer", new RootTrimmer()),
-            Map.entry("AncientHarvester", new AncientHarvester())
+            Map.entry("AncientHarvester", new AncientHarvester()),
+            Map.entry("CocoaSpreader", new CocoaSpreader()),
+            Map.entry("PrototypeHatchet", new PrototypeHatchet()),
+            Map.entry("SaplingSpitter", new SaplingSpitter()),
+            Map.entry("EarthBlessing", new EarthBlessing()),
+            Map.entry("PrimordialThresher", new PrimordialThresher())
     );
 
     @Override
@@ -45,6 +52,8 @@ public class GearHandler extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PickaxeEffectListener(), this);
         getServer().getPluginManager().registerEvents(new HoeCraftListener(), this);
         getServer().getPluginManager().registerEvents(new HoeEffectListener(this), this);
+        getServer().getPluginManager().registerEvents(new AxeCraftListener(), this);
+        getServer().getPluginManager().registerEvents(new AxeEffectListener(this), this);
     }
 
     @Override

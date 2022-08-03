@@ -175,7 +175,7 @@ public class LevelParser {
     }
 
     private static int getXPToNextLevel(int level) {
-        return (int)(1000.0 * Math.pow(1.05, level));
+        return (int)(1000.0 * Math.pow(1.07, level));
     }
 
     private static void message(Player ply, String message) {
@@ -199,72 +199,6 @@ public class LevelParser {
         }
 
         return -1;
-    }
-
-    public static LevelInfo getLevelInfo(ItemStack item) {
-        ItemMeta itemMeta = item.getItemMeta();
-
-        if (itemMeta == null) return null;
-
-        List<String> lore = itemMeta.getLore();
-
-        if (lore == null) return null;
-
-        for (String loreLine : lore) {
-            if (loreLine.length() >= 7) { // Prevent string exceptions
-                if (loreLine.startsWith("Level", 2)) {
-                    // Parse current level
-                    int charPointer = 8;
-
-                    int level = 0;
-
-                    // Parse out the current level into a variable
-                    while (loreLine.charAt(charPointer) != ' ') {
-                        level *= 10;
-                        level += loreLine.charAt(charPointer) - '0';
-                        charPointer++;
-                    }
-
-                    if (level == 50) return new LevelInfo(50, 0, 0);
-
-                    charPointer += 26; // skip char pointer to the earliest spot the bracket can be at
-
-                    // move until we find the closing bracket of the XP bar
-                    while (loreLine.charAt(charPointer) != ']') {
-                        charPointer++;
-                    }
-
-                    charPointer += 2; // move char pointer to the start of the XP amount
-
-                    int xpAmount = 0;
-
-                    // Parse out the current XP amount into a variable
-                    while (loreLine.charAt(charPointer) != ' ') {
-                        xpAmount *= 10;
-                        xpAmount += loreLine.charAt(charPointer) - '0';
-                        charPointer++;
-                    }
-
-                    int requiredXP = getXPToNextLevel(level);
-
-                    return new LevelInfo(level, xpAmount, requiredXP);
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public static class LevelInfo {
-        public int level;
-        public int xp;
-        public int requiredXP;
-
-        public LevelInfo(int level, int xp, int requiredXP) {
-            this.level = level;
-            this.xp = xp;
-            this.requiredXP = requiredXP;
-        }
     }
 
 }
