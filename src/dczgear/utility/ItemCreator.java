@@ -22,7 +22,9 @@ public class ItemCreator {
 
         lore.add(RarityMapper.getRarityLine(gear.getRarity()));
 
-        lore.add(LevelParser.getLevel0String());
+        if (gear.hasLevel()) {
+            lore.add(LevelParser.getLevel0String());
+        }
 
         lore.add("");
 
@@ -39,6 +41,13 @@ public class ItemCreator {
         }
 
         lore.add("");
+
+        if (gear.getRestrictions() != null) {
+            for (String restriction : gear.getRestrictions()) {
+                lore.add(ChatColor.RED + restriction);
+            }
+            lore.add("");
+        }
 
         for (String descLine : gear.getDescription()) {
             lore.add(org.bukkit.ChatColor.GRAY + "" + org.bukkit.ChatColor.ITALIC + descLine);

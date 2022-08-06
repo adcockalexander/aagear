@@ -11,6 +11,10 @@ public abstract class GearItem {
 
     public abstract List<String> getEffects();
 
+    public List<String> getRestrictions() {
+        return null;
+    }
+
     public String getSpecialEffectName() {
         return null;
     }
@@ -22,6 +26,10 @@ public abstract class GearItem {
     public abstract List<String> getDescription();
 
     public abstract Rarity getRarity();
+
+    public boolean hasLevel() {
+        return true;
+    }
 
     public Material getBaseMaterial() {
         return Material.BARRIER;

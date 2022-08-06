@@ -3,25 +3,33 @@ package dczgear;
 import dczgear.items.GearItem;
 import dczgear.items.axes.fivestars.*;
 import dczgear.items.axes.fourstars.*;
+import dczgear.items.commands.fourstars.*;
+import dczgear.items.commands.fivestars.*;
 import dczgear.items.pickaxes.fivestars.*;
 import dczgear.items.pickaxes.fourstars.*;
 import dczgear.items.hoes.fivestars.*;
 import dczgear.items.hoes.fourstars.*;
 import dczgear.listeners.axes.*;
+import dczgear.listeners.commands.CommandInteractListener;
 import dczgear.listeners.hoes.*;
 import dczgear.listeners.pickaxes.*;
 import dczgear.utility.ItemCreator;
 
 import net.md_5.bungee.api.ChatColor;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
+import java.util.logging.Level;
+
+import static dczgear.utility.MessageUtility.message;
 
 public class GearHandler extends JavaPlugin {
 
@@ -41,12 +49,44 @@ public class GearHandler extends JavaPlugin {
             Map.entry("PrototypeHatchet", new PrototypeHatchet()),
             Map.entry("SaplingSpitter", new SaplingSpitter()),
             Map.entry("EarthBlessing", new EarthBlessing()),
-            Map.entry("PrimordialThresher", new PrimordialThresher())
+            Map.entry("PrimordialThresher", new PrimordialThresher()),
+            Map.entry("EndlessCake", new EndlessCake()),
+            Map.entry("ExperienceBinder", new ExperienceBinder()),
+            Map.entry("HomingMarker", new HomingMarker()),
+            Map.entry("LocksmithToolkit", new LocksmithToolkit()),
+            Map.entry("MiniatureBlackhole", new MiniatureBlackhole()),
+            Map.entry("MysticalClock", new MysticalClock()),
+            Map.entry("OtherworldlyPortal", new OtherworldlyPortal()),
+            Map.entry("SaplingOfKnowledge", new SaplingOfKnowledge()),
+            Map.entry("ShapeshiftingHat", new ShapeshiftingHat()),
+            Map.entry("SoulContract", new SoulContract()),
+            Map.entry("TeleportationCrystal", new TeleportationCrystal()),
+            Map.entry("AdvancedHomingMarker", new AdvancedHomingMarker()),
+            Map.entry("EnchantedAnvil", new EnchantedAnvil()),
+            Map.entry("FlightCatalyst", new FlightCatalyst()),
+            Map.entry("SherlockSpyglass", new SherlockSpyglass()),
+            Map.entry("SpeedCatalyst", new SpeedCatalyst())
     );
 
     @Override
     public void onEnable() {
         this.getLogger().info("DCZGear v" + VERSION_NUMBER + " - Starting Up");
+
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            this.getLogger().log(Level.SEVERE, "Cannot initialise - missing Vault");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+
+        if (rsp == null) {
+            this.getLogger().log(Level.SEVERE, "Cannot initialise - missing Permission service provider");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        Permission perms = rsp.getProvider();
 
         getServer().getPluginManager().registerEvents(new PickaxeCraftListener(), this);
         getServer().getPluginManager().registerEvents(new PickaxeEffectListener(), this);
@@ -54,6 +94,7 @@ public class GearHandler extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new HoeEffectListener(this), this);
         getServer().getPluginManager().registerEvents(new AxeCraftListener(), this);
         getServer().getPluginManager().registerEvents(new AxeEffectListener(this), this);
+        getServer().getPluginManager().registerEvents(new CommandInteractListener(perms), this);
     }
 
     @Override
@@ -96,7 +137,14 @@ public class GearHandler extends JavaPlugin {
                     ply.getInventory().addItem(item);
 
                     message(sender, ChatColor.GREEN + "Successfully gave " + args[1] + " a " + args[2] + "!");
-                    message(ply, ChatColor.GREEN + sender.getName() + " gave you a " + args[2] + "!");
+
+                    String senderName = sender.getName();
+
+                    if (senderName.equals("CONSOLE")) {
+                        message(ply, ChatColor.GREEN + "You received a " + args[2] + "!");
+                    } else {
+                        message(ply, ChatColor.GREEN + sender.getName() + " gave you a " + args[2] + "!");
+                    }
                 } else {
                     message(sender, ChatColor.RED + "Bad arguments!");
                 }
@@ -110,8 +158,4 @@ public class GearHandler extends JavaPlugin {
         return false;
     }
 
-    private void message(CommandSender ply, String message) {
-        ply.sendMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Gear " + ChatColor.DARK_GRAY + ChatColor.BOLD +
-                ">> " + ChatColor.RESET + message);
-    }
 }
