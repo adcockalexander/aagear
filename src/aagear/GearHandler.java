@@ -89,6 +89,7 @@ public class GearHandler extends JavaPlugin {
 
         Permission perms = rsp.getProvider();
 
+        // If you add a listener to AAGear, make sure to register it here
         getServer().getPluginManager().registerEvents(new PickaxeCraftListener(), this);
         getServer().getPluginManager().registerEvents(new PickaxeEffectListener(), this);
         getServer().getPluginManager().registerEvents(new HoeCraftListener(), this);
@@ -105,6 +106,7 @@ public class GearHandler extends JavaPlugin {
         this.getLogger().info("AAGear v" + VERSION_NUMBER + " - Shutting Down");
     }
 
+    // Handles the /gear give command. Requires aagear.give permission
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("gear")) {
             if (args.length == 3) {

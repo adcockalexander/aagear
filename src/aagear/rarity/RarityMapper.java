@@ -6,6 +6,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class RarityMapper {
 
+    /**
+     * still to do: stop creating a new String every time
+     * getRarityLine and getRarityColor is called
+     */
+
+    // Checks an item's lore to identify what rarity it is.
     public static Rarity getItemRarity(ItemStack item) {
         ItemMeta itemMeta = item.getItemMeta();
 
@@ -28,6 +34,7 @@ public class RarityMapper {
         return null;
     }
 
+    // Converts a rarity to its string representation (as one line of an item's lore).
     public static String getRarityLine(Rarity rarity) {
         if (rarity == Rarity.ONE_STAR)
             return ChatColor.WHITE + "Rarity: " + ChatColor.GOLD + "" + ChatColor.BOLD + "✰";
@@ -43,6 +50,7 @@ public class RarityMapper {
         return "";
     }
 
+    // Returns a String that will apply the relevant rarity color when concatenated into an item's lore.
     public static String getRarityColor(Rarity rarity) {
         if (rarity == Rarity.ONE_STAR)
             return ChatColor.WHITE + "" + ChatColor.BOLD;

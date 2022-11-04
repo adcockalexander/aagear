@@ -127,6 +127,7 @@ public class LevelParser {
         return -1;
     }
 
+    // Returns the appropriate string to place inside an item's lore based on its level & XP
     private static String getLevelString(int level, int xp, int requiredXP) {
         StringBuilder sb = new StringBuilder();
 

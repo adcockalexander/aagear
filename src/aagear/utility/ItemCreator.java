@@ -12,6 +12,7 @@ import java.util.List;
 
 public class ItemCreator {
 
+    // Creates an ItemStack (a real Minecraft item) from a GearItem (the AAGear representation).
     public static ItemStack createItemFromGear(GearItem gear, Material mat) {
         ItemStack item = new ItemStack(mat);
         ItemMeta itemMeta = item.getItemMeta();
@@ -59,6 +60,10 @@ public class ItemCreator {
         return item;
     }
 
+    /** Modifies a given ItemStack based on a GearItem.
+     * This is roughly equivalent to deleting the ItemStack and then using createItemFromGear,
+     * but it's faster and doesn't cause any weird hiccups in the player experience.
+     */
     public static void modifyItemFromGear(GearItem gear, ItemStack item) {
         ItemMeta itemMeta = item.getItemMeta();
 
