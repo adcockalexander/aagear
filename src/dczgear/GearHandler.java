@@ -13,6 +13,7 @@ import dczgear.listeners.axes.*;
 import dczgear.listeners.commands.CommandInteractListener;
 import dczgear.listeners.hoes.*;
 import dczgear.listeners.pickaxes.*;
+import dczgear.listeners.shovels.*;
 import dczgear.utility.ItemCreator;
 
 import net.md_5.bungee.api.ChatColor;
@@ -95,6 +96,8 @@ public class GearHandler extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AxeCraftListener(), this);
         getServer().getPluginManager().registerEvents(new AxeEffectListener(this), this);
         getServer().getPluginManager().registerEvents(new CommandInteractListener(perms), this);
+        getServer().getPluginManager().registerEvents(new ShovelCraftListener(), this);
+        getServer().getPluginManager().registerEvents(new ShovelEffectListener(), this);
     }
 
     @Override
